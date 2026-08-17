@@ -184,7 +184,7 @@
       <div id="map"></div>
       <div class="panel">
         <h2>目前原型說明</h2>
-        <p>呢版係自用 MVP：將多個代理網站租盤集中在同一地圖與清單，並預留屋邨、學校、醫院、酒樓、中醫、西醫圖層。底圖已改成較乾淨的 CARTO light style，視覺上會比原本 OSM 標準底圖更清爽。</p>
+        <p>呢版已開始接入真實周邊設施資料示範：以 5 個舖位為中心，先用免費地圖資料查 500 米內的部分設施，並把結果寫入 JSON 顯示。地圖上的彩色點仍有部分是示例圖層，但卡片中的真實周邊數字已可作第一輪參考。</p>
         <div class="inline-stats">
           <div class="stat"><strong id="countListings">0</strong><span>租盤</span></div>
           <div class="stat"><strong id="countVisible">0</strong><span>目前顯示</span></div>
@@ -199,7 +199,7 @@
     const listings = [];
 
     async function loadListings() {
-      const res = await fetch('./listings.json');
+      const res = await fetch('./listings-with-nearby.json');
       if (!res.ok) throw new Error('無法讀取 listings.json');
       const data = await res.json();
       listings.splice(0, listings.length, ...data);
@@ -363,9 +363,11 @@
             <span class="badge">${item.areaText}</span>
           </div>
           <div class="row"><span class="price">HK$${item.rent.toLocaleString()}</span><span class="muted">${item.address}</span></div>
-          <div class="row"><span class="muted">周邊 ${state.radius}m</span><span class="muted">屋邨 ${counts.estate}｜學校 ${counts.school}｜醫院 ${counts.hospital}</span></div>
-          <div class="row"><span class="muted">醫療 / 民生</span><span class="muted">酒樓 ${counts.restaurant}｜中醫 ${counts.cm}｜西醫 ${counts.wm}</span></div>
+          <div class="row"><span class="muted">示例圖層</span><span class="muted">屋邨 ${counts.estate}｜學校 ${counts.school}｜醫院 ${counts.hospital}</span></div>
+          <div class="row"><span class="muted">真實周邊 500m</span><span class="muted">住宅 ${item.nearby?.estate?.count ?? 0}｜學校 ${item.nearby?.school?.count ?? 0}｜醫療 ${item.nearby?.hospital?.count ?? 0}</span></div>
+          <div class="row"><span class="muted">真實商戶 500m</span><span class="muted">餐飲 ${item.nearby?.restaurant?.count ?? 0}｜西醫 ${item.nearby?.doctor?.count ?? 0}</span></div>
           <p class="muted small" style="margin-top:10px; line-height:1.55">${item.notes || ''}</p>
+          <p class="muted small" style="margin-top:8px; line-height:1.55">附近名稱示例：${(item.nearby?.doctor?.names || []).slice(0,3).join('、') || '暫未找到'}${(item.nearby?.restaurant?.names || []).slice(0,2).length ? '｜餐飲：' + (item.nearby?.restaurant?.names || []).slice(0,2).join('、') : ''}</p>
           <div class="card-actions">
             <button class="btn btn-primary locate-btn">地圖定位</button>
             <a class="btn btn-secondary" href="${item.url}" target="_blank" rel="noopener noreferrer">原網站</a>
