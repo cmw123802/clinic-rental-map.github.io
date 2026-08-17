@@ -184,7 +184,7 @@
       <div id="map"></div>
       <div class="panel">
         <h2>目前原型說明</h2>
-        <p>呢版係自用 MVP：將多個代理網站租盤集中在同一地圖與清單，並預留屋邨、學校、醫院、酒樓、中醫、西醫圖層。地圖上的周邊點位暫用示例資料展示介面結構，之後可以逐步換成真實資料。</p>
+        <p>呢版係自用 MVP：將多個代理網站租盤集中在同一地圖與清單，並預留屋邨、學校、醫院、酒樓、中醫、西醫圖層。底圖已改成較乾淨的 CARTO light style，視覺上會比原本 OSM 標準底圖更清爽。</p>
         <div class="inline-stats">
           <div class="stat"><strong id="countListings">0</strong><span>租盤</span></div>
           <div class="stat"><strong id="countVisible">0</strong><span>目前顯示</span></div>
@@ -275,9 +275,10 @@
     const state = { radius:300, activeLayers:new Set(['estate','school','hospital','restaurant','cm','wm']) };
 
     const map = L.map('map', { zoomControl:true }).setView([22.2855, 114.1700], 13);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: '&copy; OpenStreetMap contributors'
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+      maxZoom: 20,
+      subdomains: 'abcd',
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions" target="_blank" rel="noopener noreferrer">CARTO</a>'
     }).addTo(map);
 
     const listingLayer = L.layerGroup().addTo(map);
