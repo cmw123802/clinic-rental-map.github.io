@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>港島診所租盤地圖原型</title>
+  <title>港島診所租盤地圖（JSON版）原型</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;800&display=swap" rel="stylesheet">
@@ -196,43 +196,14 @@
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
   <script>
-    const listings = [
-      {
-        id:'centanet-cheung-hong', source:'中原', district:'北角', name:'北角長康街',
-        address:'北角長康街 North Point Cheung Hong Street', rent:23800, areaText:'約700呎', areaNum:700,
-        url:'https://oir.centanet.com/lease/retail/hk-island-north-point-north-point-cheung-hong-street/detail/1f8f3e8b-c887-4688-b3ea-66f6d4d5961d/?logging=D',
-        notes:'地下商舖，步行約7分鐘到炮台山站，四正實用，人流暢旺，交通便利。',
-        lat:22.2917, lng:114.1995
-      },
-      {
-        id:'centanet-wood-road', source:'中原', district:'灣仔', name:'灣仔活道',
-        address:'灣仔活道 Wan Chai Wood Road', rent:38000, areaText:'480呎', areaNum:480,
-        url:'https://oir.centanet.com/all/retail/hk-island-wan-chai-wan-chai-wood-road/detail/9dc2092f-9d94-4fb3-9790-e20c75e0ab30/?logging=D',
-        notes:'用家可作對照盤；租金較高，適合之後比較港島核心區租值。',
-        lat:22.2762, lng:114.1763
-      },
-      {
-        id:'house730-kao-fat', source:'House730', district:'北角', name:'高發大廈 地下',
-        address:'北角 高發大廈 地鋪 近北角站', rent:35000, areaText:'建築面積約500呎', areaNum:500,
-        url:'https://www.house730.com/rent-property-9042178/%E5%8C%97%E8%A7%92-%E9%AB%98%E7%99%BC%E5%A4%A7%E5%BB%88/',
-        notes:'近北角站，先按原文保留面積類型。',
-        lat:22.2910, lng:114.2018
-      },
-      {
-        id:'28hse-sai-ying-pun', source:'28Hse', district:'西營盤', name:'西營盤 Queen\'s Road West',
-        address:'西營盤 Queen\'s Road West', rent:35000, areaText:'600尺連自建閣樓', areaNum:600,
-        url:'https://www.28hse.com/rent/shop/property-3972599',
-        notes:'西盤地鐵站旁，華美達酒店旁，600尺連自建閣樓。',
-        lat:22.2854, lng:114.1428
-      },
-      {
-        id:'28hse-cheong-ming', source:'28Hse', district:'北角', name:'北角 昌明洋樓',
-        address:'北角 七姊妹道 15-23 號', rent:35000, areaText:'600平方呎', areaNum:600,
-        url:'https://www.28hse.com/rent/shop/property-2842421',
-        notes:'近北角港鐵站，人流暢旺，適合中西醫務所。',
-        lat:22.2919, lng:114.2028
-      }
-    ];
+    const listings = [];
+
+    async function loadListings() {
+      const res = await fetch('./listings.json');
+      if (!res.ok) throw new Error('無法讀取 listings.json');
+      const data = await res.json();
+      listings.splice(0, listings.length, ...data);
+    }
 
     const poiData = {
       estate: [
@@ -307,9 +278,7 @@
       });
     }
 
-    fillSelect(districtFilter, uniqueValues('district'));
-    fillSelect(sourceFilter, uniqueValues('source'));
-    countListings.textContent = listings.length;
+    
 
     function distanceMeters(lat1, lon1, lat2, lon2) {
       const R = 6371000;
@@ -463,7 +432,16 @@
     });
 
     renderPois();
-    renderListings();
+    loadListings().then(() => {
+      districtFilter.innerHTML = '<option value="">全部</option>';
+      sourceFilter.innerHTML = '<option value="">全部</option>';
+      fillSelect(districtFilter, uniqueValues('district'));
+      fillSelect(sourceFilter, uniqueValues('source'));
+      countListings.textContent = listings.length;
+      renderListings();
+    }).catch(err => {
+      results.innerHTML = `<div class="empty">讀取 listings.json 失敗：${err.message}</div>`;
+    });
   </script>
 </body>
 </html>
