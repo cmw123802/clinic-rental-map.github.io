@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>港島診所租盤地圖原型</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
+  <style>
+    :root, [data-theme="light"] {
+      --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+      --text-sm: clamp(0.875rem, 0.8rem + 0.35vw, 1rem);
+      --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+      --text-lg: clamp(1.125rem, 1rem + 0.75vw, 1.5rem);
+      --text-xl: clamp(1.5rem, 1.2rem + 1.25vw, 2rem);
+      --space-1: 0.25rem; --space-2: 0.5rem; --space-3: 0.75rem; --space-4: 1rem;
+      --space-5: 1.25rem; --space-6: 1.5rem; --space-8: 2rem; --space-10: 2.5rem;
+      --color-bg:#f7f6f2; --color-surface:#fbfbf9; --color-surface-2:#f3f0ec; --color-border:#d4d1ca;
+      --color-text:#28251d; --color-text-muted:#6f6c66; --color-primary:#01696f; --color-primary-hover:#0c4e54;
+      --color-accent:#b86b00; --color-danger:#a13544; --radius-md:0.75rem; --radius-lg:1rem;
+      --shadow-sm:0 1px 2px rgba(0,0,0,.06); --shadow-md:0 10px 24px rgba(0,0,0,.08);
+    }
+    [data-theme="dark"] {
+      --color-bg:#171614; --color-surface:#1c1b19; --color-surface-2:#22211f; --color-border:#393836;
+      --color-text:#ece8df; --color-text-muted:#aaa39a; --color-primary:#4f98a3; --color-primary-hover:#7ab3bb;
+      --color-accent:#f0ab46; --color-danger:#dd6974; --shadow-sm:0 1px 2px rgba(0,0,0,.2); --shadow-md:0 10px 24px rgba(0,0,0,.28);
+    }
+    * { box-sizing: border-box; }
+    html, body { margin:0; height:100%; font-family:'Noto Sans TC', sans-serif; background:var(--color-bg); color:var(--color-text); }
+    body { font-size:var(--text-base); }
+    .app { display:grid; grid-template-columns: 420px 1fr; height:100vh; }
+    .sidebar { background:var(--color-surface); border-right:1px solid var(--color-border); display:flex; flex-direction:column; min-width:0; }
+    .topbar { padding:var(--space-5); border-bottom:1px solid var(--color-border); display:flex; justify-content:space-between; gap:var(--space-3); align-items:flex-start; }
+    .logo-wrap { display:flex; gap:var(--space-3); align-items:flex-start; }
+    .logo { width:40px; height:40px; color:var(--color-primary); flex:none; }
+    .title { font-size:var(--text-lg); font-weight:800; line-height:1.15; margin:0 0 var(--space-1); }
+    .subtitle { margin:0; color:var(--color-text-muted); font-size:var(--text-sm); }
+    .theme-btn { border:1px solid var(--color-border); background:var(--color-surface-2); border-radius:999px; width:42px; height:42px; display:grid; place-items:center; color:var(--color-text); cursor:pointer; }
+    .section { padding:var(--space-4) var(--space-5); border-bottom:1px solid var(--color-border); }
+    .section h2 { font-size:var(--text-sm); margin:0 0 var(--space-3); color:var(--color-text-muted); }
+    .filters { display:grid; gap:var(--space-3); }
+    .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:var(--space-3); }
+    label { display:grid; gap:var(--space-1); font-size:var(--text-xs); color:var(--color-text-muted); }
+    input, select, textarea { width:100%; border:1px solid var(--color-border); background:var(--color-surface); color:var(--color-text); border-radius:var(--radius-md); padding:0.78rem 0.85rem; }
+    textarea { min-height:100px; resize:vertical; }
+    .chip-row { display:flex; gap:var(--space-2); flex-wrap:wrap; }
+    .chip { padding:0.45rem 0.75rem; border:1px solid var(--color-border); border-radius:999px; background:var(--color-surface-2); font-size:var(--text-xs); cursor:pointer; }
+    .chip.active { background:color-mix(in srgb, var(--color-primary) 12%, var(--color-surface)); border-color:var(--color-primary); color:var(--color-primary); }
+    .results { overflow:auto; padding:var(--space-4); display:grid; gap:var(--space-3); }
+    .card { background:var(--color-surface); border:1px solid var(--color-border); border-radius:var(--radius-lg); padding:var(--space-4); box-shadow:var(--shadow-sm); }
+    .card h3 { margin:0 0 var(--space-2); font-size:1.05rem; }
+    .meta { display:flex; flex-wrap:wrap; gap:var(--space-2); margin-bottom:var(--space-3); }
+    .badge { font-size:var(--text-xs); padding:0.35rem 0.6rem; border-radius:999px; background:var(--color-surface-2); border:1px solid var(--color-border); }
+    .price { color:var(--color-primary); font-weight:800; font-size:1.05rem; }
+    .muted { color:var(--color-text-muted); }
+    .row { display:flex; justify-content:space-between; gap:var(--space-2); margin:0.35rem 0; }
+    .card-actions { display:flex; gap:var(--space-2); margin-top:var(--space-3); }
+    .btn { appearance:none; border:none; border-radius:999px; padding:0.72rem 1rem; cursor:pointer; font-weight:700; font-size:var(--text-sm); }
+    .btn-primary { background:var(--color-primary); color:white; }
+    .btn-secondary { background:var(--color-surface-2); color:var(--color-text); border:1px solid var(--color-border); }
+    .map-wrap { position:relative; }
+    #map { height:100vh; width:100%; }
+    .panel { position:absolute; right:16px; top:16px; z-index:500; width:min(360px, calc(100% - 32px)); background:color-mix(in srgb, var(--color-surface) 92%, transparent); backdrop-filter: blur(10px); border:1px solid var(--color-border); border-radius:var(--radius-lg); box-shadow:var(--shadow-md); padding:var(--space-4); }
+    .panel h2 { margin:0 0 var(--space-2); font-size:var(--text-sm); }
+    .panel p { margin:0; font-size:var(--text-xs); color:var(--color-text-muted); line-height:1.5; }
+    .inline-stats { margin-top:var(--space-3); display:grid; grid-template-columns:repeat(3, 1fr); gap:var(--space-2); }
+    .stat { background:var(--color-surface-2); border:1px solid var(--color-border); border-radius:var(--radius-md); padding:0.7rem; }
+    .stat strong { display:block; font-size:1rem; }
+    .stat span { font-size:var(--text-xs); color:var(--color-text-muted); }
+    .empty { padding:var(--space-8) var(--space-4); text-align:center; color:var(--color-text-muted); }
+    .legend { display:flex; gap:var(--space-2); flex-wrap:wrap; margin-top:var(--space-2); }
+    .legend span { display:inline-flex; align-items:center; gap:6px; font-size:var(--text-xs); color:var(--color-text-muted); }
+    .dot { width:10px; height:10px; border-radius:999px; display:inline-block; }
+    .srcbox { display:grid; gap:var(--space-3); }
+    .small { font-size:var(--text-xs); }
+    a { color:var(--color-primary); text-decoration:none; }
+    @media (max-width: 980px) {
+      .app { grid-template-columns:1fr; grid-template-rows:auto 52vh 48vh; height:auto; min-height:100vh; }
+      .sidebar { border-right:none; border-bottom:1px solid var(--color-border); }
+      #map { height:52vh; }
+      .panel { position:static; width:auto; margin:12px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="topbar">
+        <div class="logo-wrap">
+          <svg class="logo" viewBox="0 0 48 48" fill="none" aria-label="診所租盤地圖標誌">
+            <rect x="6" y="8" width="24" height="30" rx="6" stroke="currentColor" stroke-width="3"/>
+            <path d="M16 20h8M20 16v8" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+            <path d="M30 14l12 8v16a6 6 0 0 1-6 6H18" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <div>
+            <h1 class="title">港島診所租盤地圖</h1>
+            <p class="subtitle">整合代理租盤、地圖定位、周邊特色與手動整理入口</p>
+          </div>
+        </div>
+        <button class="theme-btn" data-theme-toggle aria-label="切換深色模式">☾</button>
+      </div>
+
+      <section class="section">
+        <h2>篩選器</h2>
+        <div class="filters">
+          <div class="grid2">
+            <label>地區
+              <select id="districtFilter">
+                <option value="">全部</option>
+              </select>
+            </label>
+            <label>來源網站
+              <select id="sourceFilter">
+                <option value="">全部</option>
+              </select>
+            </label>
+          </div>
+          <div class="grid2">
+            <label>最高月租
+              <input id="maxRent" type="number" placeholder="例如 35000" />
+            </label>
+            <label>最低面積（原文數字）
+              <input id="minArea" type="number" placeholder="例如 500" />
+            </label>
+          </div>
+          <label>關鍵字
+            <input id="keywordFilter" type="text" placeholder="例如 北角、地舖、近港鐵、酒樓" />
+          </label>
+          <div>
+            <div class="small muted" style="margin-bottom:8px;">周邊半徑</div>
+            <div class="chip-row" id="radiusChips">
+              <button class="chip active" data-radius="300">300m</button>
+              <button class="chip" data-radius="500">500m</button>
+              <button class="chip" data-radius="800">800m</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>周邊圖層</h2>
+        <div class="chip-row" id="layerToggles">
+          <button class="chip active" data-layer="estate">屋邨/屋苑</button>
+          <button class="chip active" data-layer="school">學校</button>
+          <button class="chip active" data-layer="hospital">醫院</button>
+          <button class="chip active" data-layer="restaurant">酒樓</button>
+          <button class="chip active" data-layer="cm">中醫</button>
+          <button class="chip active" data-layer="wm">西醫</button>
+        </div>
+        <div class="legend">
+          <span><i class="dot" style="background:#01696f"></i>租盤</span>
+          <span><i class="dot" style="background:#6b8e23"></i>屋邨/屋苑</span>
+          <span><i class="dot" style="background:#2a7fff"></i>學校</span>
+          <span><i class="dot" style="background:#d1495b"></i>醫院</span>
+          <span><i class="dot" style="background:#e09f3e"></i>酒樓</span>
+          <span><i class="dot" style="background:#8f5bd6"></i>中醫</span>
+          <span><i class="dot" style="background:#444"></i>西醫</span>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>貼網址後手動整理</h2>
+        <div class="srcbox">
+          <label>租盤網址
+            <input id="listingUrl" type="url" placeholder="貼上 28Hse / House730 / 中原等網址" />
+          </label>
+          <label>手動備註
+            <textarea id="listingNote" placeholder="例如：近北角站、適合醫務所、商場舖位、近酒樓等"></textarea>
+          </label>
+          <div class="card-actions">
+            <button class="btn btn-primary" id="saveDraftBtn">加入草稿區</button>
+            <button class="btn btn-secondary" id="exportBtn">匯出 JSON</button>
+          </div>
+          <p class="small muted">第一版先用手動整理模式：你貼網址，再補資料。之後可再接上半自動抽取。</p>
+        </div>
+      </section>
+
+      <div class="results" id="results"></div>
+    </aside>
+
+    <main class="map-wrap">
+      <div id="map"></div>
+      <div class="panel">
+        <h2>目前原型說明</h2>
+        <p>呢版係自用 MVP：將多個代理網站租盤集中在同一地圖與清單，並預留屋邨、學校、醫院、酒樓、中醫、西醫圖層。地圖上的周邊點位暫用示例資料展示介面結構，之後可以逐步換成真實資料。</p>
+        <div class="inline-stats">
+          <div class="stat"><strong id="countListings">0</strong><span>租盤</span></div>
+          <div class="stat"><strong id="countVisible">0</strong><span>目前顯示</span></div>
+          <div class="stat"><strong>港島</strong><span>第一版範圍</span></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script>
+    const listings = [
+      {
+        id:'centanet-cheung-hong', source:'中原', district:'北角', name:'北角長康街',
+        address:'北角長康街 North Point Cheung Hong Street', rent:23800, areaText:'約700呎', areaNum:700,
+        url:'https://oir.centanet.com/lease/retail/hk-island-north-point-north-point-cheung-hong-street/detail/1f8f3e8b-c887-4688-b3ea-66f6d4d5961d/?logging=D',
+        notes:'地下商舖，步行約7分鐘到炮台山站，四正實用，人流暢旺，交通便利。',
+        lat:22.2917, lng:114.1995
+      },
+      {
+        id:'centanet-wood-road', source:'中原', district:'灣仔', name:'灣仔活道',
+        address:'灣仔活道 Wan Chai Wood Road', rent:38000, areaText:'480呎', areaNum:480,
+        url:'https://oir.centanet.com/all/retail/hk-island-wan-chai-wan-chai-wood-road/detail/9dc2092f-9d94-4fb3-9790-e20c75e0ab30/?logging=D',
+        notes:'用家可作對照盤；租金較高，適合之後比較港島核心區租值。',
+        lat:22.2762, lng:114.1763
+      },
+      {
+        id:'house730-kao-fat', source:'House730', district:'北角', name:'高發大廈 地下',
+        address:'北角 高發大廈 地鋪 近北角站', rent:35000, areaText:'建築面積約500呎', areaNum:500,
+        url:'https://www.house730.com/rent-property-9042178/%E5%8C%97%E8%A7%92-%E9%AB%98%E7%99%BC%E5%A4%A7%E5%BB%88/',
+        notes:'近北角站，先按原文保留面積類型。',
+        lat:22.2910, lng:114.2018
+      },
+      {
+        id:'28hse-sai-ying-pun', source:'28Hse', district:'西營盤', name:'西營盤 Queen\'s Road West',
+        address:'西營盤 Queen\'s Road West', rent:35000, areaText:'600尺連自建閣樓', areaNum:600,
+        url:'https://www.28hse.com/rent/shop/property-3972599',
+        notes:'西盤地鐵站旁，華美達酒店旁，600尺連自建閣樓。',
+        lat:22.2854, lng:114.1428
+      },
+      {
+        id:'28hse-cheong-ming', source:'28Hse', district:'北角', name:'北角 昌明洋樓',
+        address:'北角 七姊妹道 15-23 號', rent:35000, areaText:'600平方呎', areaNum:600,
+        url:'https://www.28hse.com/rent/shop/property-2842421',
+        notes:'近北角港鐵站，人流暢旺，適合中西醫務所。',
+        lat:22.2919, lng:114.2028
+      }
+    ];
+
+    const poiData = {
+      estate: [
+        {name:'愛蝶灣', district:'筲箕灣', lat:22.2798, lng:114.2264},
+        {name:'健威花園', district:'北角', lat:22.2901, lng:114.1952},
+        {name:'城市花園', district:'北角', lat:22.2917, lng:114.1942},
+        {name:'嘉輝花園', district:'西營盤', lat:22.2858, lng:114.1413}
+      ],
+      school: [
+        {name:'北角官立小學', district:'北角', lat:22.2913, lng:114.2000},
+        {name:'香港大學', district:'薄扶林/西環', lat:22.2838, lng:114.1379},
+        {name:'聖若瑟小學', district:'灣仔', lat:22.2748, lng:114.1734}
+      ],
+      hospital: [
+        {name:'東華東院', district:'北角', lat:22.2833, lng:114.1968},
+        {name:'律敦治醫院', district:'灣仔', lat:22.2758, lng:114.1776},
+        {name:'瑪麗醫院', district:'薄扶林', lat:22.2708, lng:114.1290}
+      ],
+      restaurant: [
+        {name:'北角酒樓示例', district:'北角', lat:22.2915, lng:114.2010},
+        {name:'西環酒樓示例', district:'西環', lat:22.2862, lng:114.1419},
+        {name:'灣仔酒樓示例', district:'灣仔', lat:22.2768, lng:114.1751}
+      ],
+      cm: [
+        {name:'北角中醫示例', district:'北角', lat:22.2918, lng:114.2035},
+        {name:'西營盤中醫示例', district:'西營盤', lat:22.2851, lng:114.1437},
+        {name:'灣仔中醫示例', district:'灣仔', lat:22.2760, lng:114.1746}
+      ],
+      wm: [
+        {name:'北角西醫示例', district:'北角', lat:22.2905, lng:114.2008},
+        {name:'西環西醫示例', district:'西環', lat:22.2868, lng:114.1408},
+        {name:'灣仔西醫示例', district:'灣仔', lat:22.2764, lng:114.1768}
+      ]
+    };
+
+    const layerStyles = {
+      estate:'#6b8e23', school:'#2a7fff', hospital:'#d1495b', restaurant:'#e09f3e', cm:'#8f5bd6', wm:'#444'
+    };
+
+    const state = { radius:300, activeLayers:new Set(['estate','school','hospital','restaurant','cm','wm']) };
+
+    const map = L.map('map', { zoomControl:true }).setView([22.2855, 114.1700], 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    const listingLayer = L.layerGroup().addTo(map);
+    const poiLayers = {};
+    Object.keys(poiData).forEach(key => {
+      poiLayers[key] = L.layerGroup().addTo(map);
+    });
+
+    const districtFilter = document.getElementById('districtFilter');
+    const sourceFilter = document.getElementById('sourceFilter');
+    const maxRent = document.getElementById('maxRent');
+    const minArea = document.getElementById('minArea');
+    const keywordFilter = document.getElementById('keywordFilter');
+    const results = document.getElementById('results');
+    const countListings = document.getElementById('countListings');
+    const countVisible = document.getElementById('countVisible');
+
+    function uniqueValues(key) {
+      return [...new Set(listings.map(item => item[key]).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'zh-Hant'));
+    }
+
+    function fillSelect(select, values) {
+      values.forEach(v => {
+        const opt = document.createElement('option');
+        opt.value = v; opt.textContent = v; select.appendChild(opt);
+      });
+    }
+
+    fillSelect(districtFilter, uniqueValues('district'));
+    fillSelect(sourceFilter, uniqueValues('source'));
+    countListings.textContent = listings.length;
+
+    function distanceMeters(lat1, lon1, lat2, lon2) {
+      const R = 6371000;
+      const toRad = d => d * Math.PI / 180;
+      const dLat = toRad(lat2-lat1), dLon = toRad(lon2-lon1);
+      const a = Math.sin(dLat/2)**2 + Math.cos(toRad(lat1))*Math.cos(toRad(lat2))*Math.sin(dLon/2)**2;
+      return 2 * R * Math.asin(Math.sqrt(a));
+    }
+
+    function nearbyCounts(item) {
+      const counts = {};
+      Object.entries(poiData).forEach(([key, arr]) => {
+        counts[key] = arr.filter(p => distanceMeters(item.lat,item.lng,p.lat,p.lng) <= state.radius).length;
+      });
+      return counts;
+    }
+
+    function createPopup(item, counts) {
+      return `
+        <div style="min-width:240px">
+          <strong style="font-size:16px">${item.name}</strong>
+          <div style="margin:8px 0;color:#666">${item.address}</div>
+          <div><strong style="color:#01696f">月租 HK$${item.rent.toLocaleString()}</strong></div>
+          <div>面積：${item.areaText}</div>
+          <div style="margin-top:8px">周邊 ${state.radius}m：屋邨 ${counts.estate} / 學校 ${counts.school} / 醫院 ${counts.hospital} / 酒樓 ${counts.restaurant} / 中醫 ${counts.cm} / 西醫 ${counts.wm}</div>
+          <div style="margin-top:10px"><a href="${item.url}" target="_blank" rel="noopener noreferrer">開啟原網站</a></div>
+        </div>`;
+    }
+
+    function renderPois() {
+      Object.keys(poiLayers).forEach(key => {
+        poiLayers[key].clearLayers();
+        if (!state.activeLayers.has(key)) return;
+        poiData[key].forEach(p => {
+          L.circleMarker([p.lat, p.lng], {
+            radius:6, color:layerStyles[key], weight:2, fillColor:layerStyles[key], fillOpacity:0.8
+          }).bindPopup(`<strong>${p.name}</strong><br>${key}`).addTo(poiLayers[key]);
+        });
+      });
+    }
+
+    function filteredListings() {
+      return listings.filter(item => {
+        if (districtFilter.value && item.district !== districtFilter.value) return false;
+        if (sourceFilter.value && item.source !== sourceFilter.value) return false;
+        if (maxRent.value && item.rent > Number(maxRent.value)) return false;
+        if (minArea.value && item.areaNum < Number(minArea.value)) return false;
+        const kw = keywordFilter.value.trim().toLowerCase();
+        if (kw) {
+          const hay = [item.name,item.address,item.notes,item.source,item.district,item.areaText].join(' ').toLowerCase();
+          if (!hay.includes(kw)) return false;
+        }
+        return true;
+      });
+    }
+
+    function renderListings() {
+      const items = filteredListings();
+      results.innerHTML = '';
+      listingLayer.clearLayers();
+      countVisible.textContent = items.length;
+
+      if (!items.length) {
+        results.innerHTML = '<div class="empty">目前沒有符合條件的租盤。</div>';
+        return;
+      }
+
+      const bounds = [];
+      items.forEach(item => {
+        const counts = nearbyCounts(item);
+        const marker = L.marker([item.lat, item.lng]).bindPopup(createPopup(item, counts));
+        marker.addTo(listingLayer);
+        bounds.push([item.lat, item.lng]);
+
+        const card = document.createElement('article');
+        card.className = 'card';
+        card.innerHTML = `
+          <h3>${item.name}</h3>
+          <div class="meta">
+            <span class="badge">${item.source}</span>
+            <span class="badge">${item.district}</span>
+            <span class="badge">${item.areaText}</span>
+          </div>
+          <div class="row"><span class="price">HK$${item.rent.toLocaleString()}</span><span class="muted">${item.address}</span></div>
+          <div class="row"><span class="muted">周邊 ${state.radius}m</span><span class="muted">屋邨 ${counts.estate}｜學校 ${counts.school}｜醫院 ${counts.hospital}</span></div>
+          <div class="row"><span class="muted">醫療 / 民生</span><span class="muted">酒樓 ${counts.restaurant}｜中醫 ${counts.cm}｜西醫 ${counts.wm}</span></div>
+          <p class="muted small" style="margin-top:10px; line-height:1.55">${item.notes || ''}</p>
+          <div class="card-actions">
+            <button class="btn btn-primary locate-btn">地圖定位</button>
+            <a class="btn btn-secondary" href="${item.url}" target="_blank" rel="noopener noreferrer">原網站</a>
+          </div>
+        `;
+        card.querySelector('.locate-btn').addEventListener('click', () => {
+          map.setView([item.lat, item.lng], 17);
+          marker.openPopup();
+        });
+        results.appendChild(card);
+      });
+
+      if (bounds.length) map.fitBounds(bounds, { padding:[40,40] });
+    }
+
+    document.querySelectorAll('#radiusChips .chip').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#radiusChips .chip').forEach(x => x.classList.remove('active'));
+        btn.classList.add('active');
+        state.radius = Number(btn.dataset.radius);
+        renderListings();
+      });
+    });
+
+    document.querySelectorAll('#layerToggles .chip').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const key = btn.dataset.layer;
+        btn.classList.toggle('active');
+        if (state.activeLayers.has(key)) state.activeLayers.delete(key); else state.activeLayers.add(key);
+        renderPois();
+      });
+    });
+
+    [districtFilter, sourceFilter, maxRent, minArea, keywordFilter].forEach(el => el.addEventListener('input', renderListings));
+    sourceFilter.addEventListener('change', renderListings);
+    districtFilter.addEventListener('change', renderListings);
+
+    document.getElementById('saveDraftBtn').addEventListener('click', () => {
+      const url = document.getElementById('listingUrl').value.trim();
+      const note = document.getElementById('listingNote').value.trim();
+      if (!url) { alert('請先貼上租盤網址。'); return; }
+      const draft = { url, note, createdAt: new Date().toISOString() };
+      const blob = new Blob([JSON.stringify(draft, null, 2)], { type:'application/json' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'listing-draft.json';
+      a.click();
+    });
+
+    document.getElementById('exportBtn').addEventListener('click', () => {
+      const blob = new Blob([JSON.stringify(listings, null, 2)], { type:'application/json' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'clinic-rental-listings.json';
+      a.click();
+    });
+
+    const themeBtn = document.querySelector('[data-theme-toggle]');
+    themeBtn.addEventListener('click', () => {
+      const root = document.documentElement;
+      const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      themeBtn.textContent = next === 'dark' ? '☀' : '☾';
+    });
+
+    renderPois();
+    renderListings();
+  </script>
+</body>
+</html>
