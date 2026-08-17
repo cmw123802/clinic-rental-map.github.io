@@ -263,8 +263,8 @@
           <strong style="font-size:16px">${item.name}</strong>
           <div style="margin:8px 0;color:#666">${item.address}</div>
           <div><strong style="color:#01696f">月租 HK$${item.rent.toLocaleString()}</strong></div>
-          <div>面積：${item.areaText}</div>
-          <div style="margin-top:8px">周邊 ${state.radius}m：屋邨 ${counts.estate} / 學校 ${counts.school} / 醫院 ${counts.hospital} / 酒樓 ${counts.restaurant} / 中醫 ${counts.cm} / 西醫 ${counts.wm}</div>
+          <div>面積：${item.area_text || item.areaText || '-'} </div>
+          <div style="margin-top:8px">真實周邊 500m：住宅 ${item.nearby?.estate?.count ?? 0} / 學校 ${item.nearby?.school?.count ?? 0} / 醫療 ${item.nearby?.hospital?.count ?? 0} / 餐飲 ${item.nearby?.restaurant?.count ?? 0} / 西醫 ${item.nearby?.doctor?.count ?? 0}</div>
           <div style="margin-top:10px"><a href="${item.url}" target="_blank" rel="noopener noreferrer">開啟原網站</a></div>
         </div>`;
     }
@@ -342,16 +342,7 @@
       });
     });
 
-    document.querySelectorAll('#layerToggles .chip').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const key = btn.dataset.layer;
-        btn.classList.toggle('active');
-        if (state.activeLayers.has(key)) state.activeLayers.delete(key); else state.activeLayers.add(key);
-        renderPois();
-      });
-    });
-
-    [districtFilter, sourceFilter, maxRent, minArea, keywordFilter].forEach(el => el.addEventListener('input', renderListings));
+        [districtFilter, sourceFilter, maxRent, minArea, keywordFilter].forEach(el => el.addEventListener('input', renderListings));
     sourceFilter.addEventListener('change', renderListings);
     districtFilter.addEventListener('change', renderListings);
 
