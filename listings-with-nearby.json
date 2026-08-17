@@ -1,0 +1,232 @@
+[
+  {
+    "id": "centanet-cheung-hong",
+    "source": "中原",
+    "district": "北角",
+    "name": "北角長康街",
+    "address": "北角長康街 North Point Cheung Hong Street",
+    "rent": 23800,
+    "area_text": "約700呎",
+    "area_num": 700,
+    "url": "https://oir.centanet.com/lease/retail/hk-island-north-point-north-point-cheung-hong-street/detail/1f8f3e8b-c887-4688-b3ea-66f6d4d5961d/?logging=D",
+    "notes": "地下商舖，步行約7分鐘到炮台山站，四正實用，人流暢旺，交通便利。",
+    "lat": 22.2917,
+    "lng": 114.1995,
+    "nearby": {
+      "restaurant": {
+        "count": 0,
+        "radius_m": 500,
+        "names": [],
+        "error": "406 Client Error: Not Acceptable for url: https://overpass-api.de/api/interpreter?data=%5Bout%3Ajson%5D%5Btimeout%3A25%5D%3B%28node%28around%3A500%2C22.2917%2C114.1995%29%5B%22amenity%22~%22restaurant%7Ccafe%7Cfast_food%7Cfood_court%22%5D%3Bway%28around%3A500%2C22.2917%2C114.1995%29%5B%22amenity%22~%22restaurant%7Ccafe%7Cfast_food%7Cfood_court%22%5D%3B%29%3Bout+center+50%3B"
+      },
+      "hospital": {
+        "count": 0,
+        "radius_m": 500,
+        "names": [],
+        "error": "406 Client Error: Not Acceptable for url: https://overpass-api.de/api/interpreter?data=%5Bout%3Ajson%5D%5Btimeout%3A25%5D%3B%28node%28around%3A500%2C22.2917%2C114.1995%29%5B%22amenity%22~%22hospital%7Cclinic%22%5D%3Bway%28around%3A500%2C22.2917%2C114.1995%29%5B%22amenity%22~%22hospital%7Cclinic%22%5D%3B%29%3Bout+center+50%3B"
+      },
+      "school": {
+        "count": 0,
+        "radius_m": 500,
+        "names": [],
+        "error": "406 Client Error: Not Acceptable for url: https://overpass-api.de/api/interpreter?data=%5Bout%3Ajson%5D%5Btimeout%3A25%5D%3B%28node%28around%3A500%2C22.2917%2C114.1995%29%5B%22amenity%22~%22school%7Ccollege%7Cuniversity%7Ckindergarten%22%5D%3Bway%28around%3A500%2C22.2917%2C114.1995%29%5B%22amenity%22~%22school%7Ccollege%7Cuniversity%7Ckindergarten%22%5D%3B%29%3Bout+center+50%3B"
+      },
+      "estate": {
+        "count": 0,
+        "radius_m": 500,
+        "names": [],
+        "error": "406 Client Error: Not Acceptable for url: https://overpass-api.de/api/interpreter?data=%5Bout%3Ajson%5D%5Btimeout%3A25%5D%3B%28node%28around%3A500%2C22.2917%2C114.1995%29%5B%22building%22~%22residential%7Capartments%22%5D%3Bway%28around%3A500%2C22.2917%2C114.1995%29%5B%22building%22~%22residential%7Capartments%22%5D%3Brelation%28around%3A500%2C22.2917%2C114.1995%29%5B%22building%22~%22residential%7Capartments%22%5D%3B%29%3Bout+center+50%3B"
+      },
+      "doctor": {
+        "count": 0,
+        "radius_m": 500,
+        "names": [],
+        "error": "406 Client Error: Not Acceptable for url: https://overpass-api.de/api/interpreter?data=%5Bout%3Ajson%5D%5Btimeout%3A25%5D%3B%28node%28around%3A500%2C22.2917%2C114.1995%29%5B%22amenity%22%3D%22doctors%22%5D%3Bway%28around%3A500%2C22.2917%2C114.1995%29%5B%22amenity%22%3D%22doctors%22%5D%3B%29%3Bout+center+50%3B"
+      }
+    }
+  },
+  {
+    "id": "centanet-wood-road",
+    "source": "中原",
+    "district": "灣仔",
+    "name": "灣仔活道",
+    "address": "灣仔活道 Wan Chai Wood Road",
+    "rent": 38000,
+    "area_text": "480呎",
+    "area_num": 480,
+    "url": "https://oir.centanet.com/all/retail/hk-island-wan-chai-wan-chai-wood-road/detail/9dc2092f-9d94-4fb3-9790-e20c75e0ab30/?logging=D",
+    "notes": "用家可作對照盤；租金較高，適合之後比較港島核心區租值。",
+    "lat": 22.2762,
+    "lng": 114.1763,
+    "nearby": {
+      "restaurant": {
+        "count": 0,
+        "radius_m": 500,
+        "names": [],
+        "error": "406 Client Error: Not Acceptable for url: https://overpass-api.de/api/interpreter?data=%5Bout%3Ajson%5D%5Btimeout%3A25%5D%3B%28node%28around%3A500%2C22.2762%2C114.1763%29%5B%22amenity%22~%22restaurant%7Ccafe%7Cfast_food%7Cfood_court%22%5D%3Bway%28around%3A500%2C22.2762%2C114.1763%29%5B%22amenity%22~%22restaurant%7Ccafe%7Cfast_food%7Cfood_court%22%5D%3B%29%3Bout+center+50%3B"
+      },
+      "hospital": {
+        "count": 0,
+        "radius_m": 500,
+        "names": [],
+        "error": "406 Client Error: Not Acceptable for url: https://overpass-api.de/api/interpreter?data=%5Bout%3Ajson%5D%5Btimeout%3A25%5D%3B%28node%28around%3A500%2C22.2762%2C114.1763%29%5B%22amenity%22~%22hospital%7Cclinic%22%5D%3Bway%28around%3A500%2C22.2762%2C114.1763%29%5B%22amenity%22~%22hospital%7Cclinic%22%5D%3B%29%3Bout+center+50%3B"
+      },
+      "school": {
+        "count": 0,
+        "radius_m": 500,
+        "names": [],
+        "error": "406 Client Error: Not Acceptable for url: https://overpass-api.de/api/interpreter?data=%5Bout%3Ajson%5D%5Btimeout%3A25%5D%3B%28node%28around%3A500%2C22.2762%2C114.1763%29%5B%22amenity%22~%22school%7Ccollege%7Cuniversity%7Ckindergarten%22%5D%3Bway%28around%3A500%2C22.2762%2C114.1763%29%5B%22amenity%22~%22school%7Ccollege%7Cuniversity%7Ckindergarten%22%5D%3B%29%3Bout+center+50%3B"
+      },
+      "estate": {
+        "count": 0,
+        "radius_m": 500,
+        "names": [],
+        "error": "406 Client Error: Not Acceptable for url: https://overpass-api.de/api/interpreter?data=%5Bout%3Ajson%5D%5Btimeout%3A25%5D%3B%28node%28around%3A500%2C22.2762%2C114.1763%29%5B%22building%22~%22residential%7Capartments%22%5D%3Bway%28around%3A500%2C22.2762%2C114.1763%29%5B%22building%22~%22residential%7Capartments%22%5D%3Brelation%28around%3A500%2C22.2762%2C114.1763%29%5B%22building%22~%22residential%7Capartments%22%5D%3B%29%3Bout+center+50%3B"
+      },
+      "doctor": {
+        "count": 0,
+        "radius_m": 500,
+        "names": [],
+        "error": "406 Client Error: Not Acceptable for url: https://overpass-api.de/api/interpreter?data=%5Bout%3Ajson%5D%5Btimeout%3A25%5D%3B%28node%28around%3A500%2C22.2762%2C114.1763%29%5B%22amenity%22%3D%22doctors%22%5D%3Bway%28around%3A500%2C22.2762%2C114.1763%29%5B%22amenity%22%3D%22doctors%22%5D%3B%29%3Bout+center+50%3B"
+      }
+    }
+  },
+  {
+    "id": "house730-kao-fat",
+    "source": "House730",
+    "district": "北角",
+    "name": "高發大廈 地下",
+    "address": "北角 高發大廈 地鋪 近北角站",
+    "rent": 35000,
+    "area_text": "建築面積約500呎",
+    "area_num": 500,
+    "url": "https://www.house730.com/rent-property-9042178/%E5%8C%97%E8%A7%92-%E9%AB%98%E7%99%BC%E5%A4%A7%E5%BB%88/",
+    "notes": "近北角站，先按原文保留面積類型。",
+    "lat": 22.291,
+    "lng": 114.2018,
+    "nearby": {
+      "restaurant": {
+        "count": 0,
+        "radius_m": 500,
+        "names": [],
+        "error": "406 Client Error: Not Acceptable for url: https://overpass-api.de/api/interpreter?data=%5Bout%3Ajson%5D%5Btimeout%3A25%5D%3B%28node%28around%3A500%2C22.291%2C114.2018%29%5B%22amenity%22~%22restaurant%7Ccafe%7Cfast_food%7Cfood_court%22%5D%3Bway%28around%3A500%2C22.291%2C114.2018%29%5B%22amenity%22~%22restaurant%7Ccafe%7Cfast_food%7Cfood_court%22%5D%3B%29%3Bout+center+50%3B"
+      },
+      "hospital": {
+        "count": 0,
+        "radius_m": 500,
+        "names": [],
+        "error": "406 Client Error: Not Acceptable for url: https://overpass-api.de/api/interpreter?data=%5Bout%3Ajson%5D%5Btimeout%3A25%5D%3B%28node%28around%3A500%2C22.291%2C114.2018%29%5B%22amenity%22~%22hospital%7Cclinic%22%5D%3Bway%28around%3A500%2C22.291%2C114.2018%29%5B%22amenity%22~%22hospital%7Cclinic%22%5D%3B%29%3Bout+center+50%3B"
+      },
+      "school": {
+        "count": 0,
+        "radius_m": 500,
+        "names": [],
+        "error": "406 Client Error: Not Acceptable for url: https://overpass-api.de/api/interpreter?data=%5Bout%3Ajson%5D%5Btimeout%3A25%5D%3B%28node%28around%3A500%2C22.291%2C114.2018%29%5B%22amenity%22~%22school%7Ccollege%7Cuniversity%7Ckindergarten%22%5D%3Bway%28around%3A500%2C22.291%2C114.2018%29%5B%22amenity%22~%22school%7Ccollege%7Cuniversity%7Ckindergarten%22%5D%3B%29%3Bout+center+50%3B"
+      },
+      "estate": {
+        "count": 0,
+        "radius_m": 500,
+        "names": [],
+        "error": "406 Client Error: Not Acceptable for url: https://overpass-api.de/api/interpreter?data=%5Bout%3Ajson%5D%5Btimeout%3A25%5D%3B%28node%28around%3A500%2C22.291%2C114.2018%29%5B%22building%22~%22residential%7Capartments%22%5D%3Bway%28around%3A500%2C22.291%2C114.2018%29%5B%22building%22~%22residential%7Capartments%22%5D%3Brelation%28around%3A500%2C22.291%2C114.2018%29%5B%22building%22~%22residential%7Capartments%22%5D%3B%29%3Bout+center+50%3B"
+      },
+      "doctor": {
+        "count": 0,
+        "radius_m": 500,
+        "names": [],
+        "error": "406 Client Error: Not Acceptable for url: https://overpass-api.de/api/interpreter?data=%5Bout%3Ajson%5D%5Btimeout%3A25%5D%3B%28node%28around%3A500%2C22.291%2C114.2018%29%5B%22amenity%22%3D%22doctors%22%5D%3Bway%28around%3A500%2C22.291%2C114.2018%29%5B%22amenity%22%3D%22doctors%22%5D%3B%29%3Bout+center+50%3B"
+      }
+    }
+  },
+  {
+    "id": "28hse-sai-ying-pun",
+    "source": "28Hse",
+    "district": "西營盤",
+    "name": "西營盤 Queen's Road West",
+    "address": "西營盤 Queen's Road West",
+    "rent": 35000,
+    "area_text": "600尺連自建閣樓",
+    "area_num": 600,
+    "url": "https://www.28hse.com/rent/shop/property-3972599",
+    "notes": "西盤地鐵站旁，華美達酒店旁，600尺連自建閣樓。",
+    "lat": 22.2854,
+    "lng": 114.1428,
+    "nearby": {
+      "restaurant": {
+        "count": 0,
+        "radius_m": 500,
+        "names": [],
+        "error": "406 Client Error: Not Acceptable for url: https://overpass-api.de/api/interpreter?data=%5Bout%3Ajson%5D%5Btimeout%3A25%5D%3B%28node%28around%3A500%2C22.2854%2C114.1428%29%5B%22amenity%22~%22restaurant%7Ccafe%7Cfast_food%7Cfood_court%22%5D%3Bway%28around%3A500%2C22.2854%2C114.1428%29%5B%22amenity%22~%22restaurant%7Ccafe%7Cfast_food%7Cfood_court%22%5D%3B%29%3Bout+center+50%3B"
+      },
+      "hospital": {
+        "count": 0,
+        "radius_m": 500,
+        "names": [],
+        "error": "406 Client Error: Not Acceptable for url: https://overpass-api.de/api/interpreter?data=%5Bout%3Ajson%5D%5Btimeout%3A25%5D%3B%28node%28around%3A500%2C22.2854%2C114.1428%29%5B%22amenity%22~%22hospital%7Cclinic%22%5D%3Bway%28around%3A500%2C22.2854%2C114.1428%29%5B%22amenity%22~%22hospital%7Cclinic%22%5D%3B%29%3Bout+center+50%3B"
+      },
+      "school": {
+        "count": 0,
+        "radius_m": 500,
+        "names": [],
+        "error": "406 Client Error: Not Acceptable for url: https://overpass-api.de/api/interpreter?data=%5Bout%3Ajson%5D%5Btimeout%3A25%5D%3B%28node%28around%3A500%2C22.2854%2C114.1428%29%5B%22amenity%22~%22school%7Ccollege%7Cuniversity%7Ckindergarten%22%5D%3Bway%28around%3A500%2C22.2854%2C114.1428%29%5B%22amenity%22~%22school%7Ccollege%7Cuniversity%7Ckindergarten%22%5D%3B%29%3Bout+center+50%3B"
+      },
+      "estate": {
+        "count": 0,
+        "radius_m": 500,
+        "names": [],
+        "error": "406 Client Error: Not Acceptable for url: https://overpass-api.de/api/interpreter?data=%5Bout%3Ajson%5D%5Btimeout%3A25%5D%3B%28node%28around%3A500%2C22.2854%2C114.1428%29%5B%22building%22~%22residential%7Capartments%22%5D%3Bway%28around%3A500%2C22.2854%2C114.1428%29%5B%22building%22~%22residential%7Capartments%22%5D%3Brelation%28around%3A500%2C22.2854%2C114.1428%29%5B%22building%22~%22residential%7Capartments%22%5D%3B%29%3Bout+center+50%3B"
+      },
+      "doctor": {
+        "count": 0,
+        "radius_m": 500,
+        "names": [],
+        "error": "406 Client Error: Not Acceptable for url: https://overpass-api.de/api/interpreter?data=%5Bout%3Ajson%5D%5Btimeout%3A25%5D%3B%28node%28around%3A500%2C22.2854%2C114.1428%29%5B%22amenity%22%3D%22doctors%22%5D%3Bway%28around%3A500%2C22.2854%2C114.1428%29%5B%22amenity%22%3D%22doctors%22%5D%3B%29%3Bout+center+50%3B"
+      }
+    }
+  },
+  {
+    "id": "28hse-cheong-ming",
+    "source": "28Hse",
+    "district": "北角",
+    "name": "北角 昌明洋樓",
+    "address": "北角 七姊妹道 15-23 號",
+    "rent": 35000,
+    "area_text": "600平方呎",
+    "area_num": 600,
+    "url": "https://www.28hse.com/rent/shop/property-2842421",
+    "notes": "近北角港鐵站，人流暢旺，適合中西醫務所。",
+    "lat": 22.2919,
+    "lng": 114.2028,
+    "nearby": {
+      "restaurant": {
+        "count": 0,
+        "radius_m": 500,
+        "names": [],
+        "error": "406 Client Error: Not Acceptable for url: https://overpass-api.de/api/interpreter?data=%5Bout%3Ajson%5D%5Btimeout%3A25%5D%3B%28node%28around%3A500%2C22.2919%2C114.2028%29%5B%22amenity%22~%22restaurant%7Ccafe%7Cfast_food%7Cfood_court%22%5D%3Bway%28around%3A500%2C22.2919%2C114.2028%29%5B%22amenity%22~%22restaurant%7Ccafe%7Cfast_food%7Cfood_court%22%5D%3B%29%3Bout+center+50%3B"
+      },
+      "hospital": {
+        "count": 0,
+        "radius_m": 500,
+        "names": [],
+        "error": "406 Client Error: Not Acceptable for url: https://overpass-api.de/api/interpreter?data=%5Bout%3Ajson%5D%5Btimeout%3A25%5D%3B%28node%28around%3A500%2C22.2919%2C114.2028%29%5B%22amenity%22~%22hospital%7Cclinic%22%5D%3Bway%28around%3A500%2C22.2919%2C114.2028%29%5B%22amenity%22~%22hospital%7Cclinic%22%5D%3B%29%3Bout+center+50%3B"
+      },
+      "school": {
+        "count": 0,
+        "radius_m": 500,
+        "names": [],
+        "error": "406 Client Error: Not Acceptable for url: https://overpass-api.de/api/interpreter?data=%5Bout%3Ajson%5D%5Btimeout%3A25%5D%3B%28node%28around%3A500%2C22.2919%2C114.2028%29%5B%22amenity%22~%22school%7Ccollege%7Cuniversity%7Ckindergarten%22%5D%3Bway%28around%3A500%2C22.2919%2C114.2028%29%5B%22amenity%22~%22school%7Ccollege%7Cuniversity%7Ckindergarten%22%5D%3B%29%3Bout+center+50%3B"
+      },
+      "estate": {
+        "count": 0,
+        "radius_m": 500,
+        "names": [],
+        "error": "406 Client Error: Not Acceptable for url: https://overpass-api.de/api/interpreter?data=%5Bout%3Ajson%5D%5Btimeout%3A25%5D%3B%28node%28around%3A500%2C22.2919%2C114.2028%29%5B%22building%22~%22residential%7Capartments%22%5D%3Bway%28around%3A500%2C22.2919%2C114.2028%29%5B%22building%22~%22residential%7Capartments%22%5D%3Brelation%28around%3A500%2C22.2919%2C114.2028%29%5B%22building%22~%22residential%7Capartments%22%5D%3B%29%3Bout+center+50%3B"
+      },
+      "doctor": {
+        "count": 0,
+        "radius_m": 500,
+        "names": [],
+        "error": "('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      }
+    }
+  }
+]
